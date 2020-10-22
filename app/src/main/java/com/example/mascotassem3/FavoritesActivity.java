@@ -26,6 +26,7 @@ public class FavoritesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_favorites);
         Toolbar toolbar = findViewById(R.id.miActonBar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         findViewById(R.id.five_starts_image).setVisibility(View.INVISIBLE);
         inicializarArrayMascotas();
