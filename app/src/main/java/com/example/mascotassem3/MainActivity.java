@@ -1,29 +1,44 @@
 package com.example.mascotassem3;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.mascotassem3.adapters.MascotaAdapter;
+import com.example.mascotassem3.adapters.PageAdapter;
 import com.example.mascotassem3.model.Mascota;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Mascota> mascotas;
+    private Toolbar toolbarViewPager;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.miActonBar);
         setSupportActionBar(toolbar);
@@ -34,25 +49,47 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        inicializarArrayMascotas();
-
-        MascotaAdapter adapter = new MascotaAdapter(mascotas);
-        ((RecyclerView) findViewById(R.id.recycler_mascotas)).setAdapter(adapter);
-
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        ((RecyclerView) findViewById(R.id.recycler_mascotas)).setLayoutManager(llm);
+        setupViewPager();
     }
 
-    public void inicializarArrayMascotas(){
-        mascotas = new ArrayList<>();
-        mascotas.add(new Mascota(R.drawable.ic_dog_1, "Perl", 3));
-        mascotas.add(new Mascota(R.drawable.ic_dog_2, "Piter", 6));
-        mascotas.add(new Mascota(R.drawable.ic_dog_3, "CHarly", 2));
-        mascotas.add(new Mascota(R.drawable.ic_dog_2, "Catty", 3));
-        mascotas.add(new Mascota(R.drawable.ic_dog_1, "Kita", 4));
-        mascotas.add(new Mascota(R.drawable.ic_dog_3, "Tom", 1));
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_opciones, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.mContacto:
+                intent = new Intent(MainActivity.this, ContactActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.mAbout:
+                intent = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + item.getItemId());
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+    private ArrayList<Fragment> agregarFragments() {
+        ArrayList<Fragment> fragments = new ArrayList<>();
+
+        fragments.add(new HomeFragment());
+        fragments.add(new PerfilFragment());
+
+        return fragments;
+    }
+    private void setupViewPager(){
+        viewPager.setAdapter(new PageAdapter(getSupportFragmentManager(), agregarFragments()));
+        tabLayout.setupWithViewPager(viewPager);
     }
 }
