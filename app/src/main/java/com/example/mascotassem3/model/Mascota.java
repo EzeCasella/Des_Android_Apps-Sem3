@@ -2,6 +2,7 @@ package com.example.mascotassem3.model;
 
 public class Mascota {
 
+    private int id;
     private Integer imagen;
     private String nombre;
     private Integer puntaje;
@@ -10,6 +11,10 @@ public class Mascota {
         this.imagen = imagen;
         this.nombre = nombre;
         this.puntaje = puntaje;
+    }
+
+    public Mascota() {
+
     }
 
     public Integer getImagen() {
@@ -34,5 +39,13 @@ public class Mascota {
 
     public void setPuntaje(Integer puntaje) {
         this.puntaje = puntaje;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

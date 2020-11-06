@@ -31,7 +31,7 @@ public class FavoritesActivity extends AppCompatActivity {
         findViewById(R.id.five_starts_image).setVisibility(View.INVISIBLE);
         inicializarArrayMascotas();
 
-        MascotaAdapter adapter = new MascotaAdapter(mascotas);
+        MascotaAdapter adapter = new MascotaAdapter(this, mascotas);
         ((RecyclerView) findViewById(R.id.recycler_mascotas_favoritas)).setAdapter(adapter);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);

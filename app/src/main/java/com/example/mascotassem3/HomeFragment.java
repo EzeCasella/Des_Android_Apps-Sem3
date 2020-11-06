@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.mascotassem3.adapters.MascotaAdapter;
+import com.example.mascotassem3.db.ConstructorMascotas;
 import com.example.mascotassem3.model.Mascota;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
  */
 public class HomeFragment extends Fragment {
     private ArrayList<Mascota> mascotas;
+    private ConstructorMascotas constructorMascotas;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -84,9 +86,9 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
-        inicializarArrayMascotas();
+        obtenerContactosBaseDatos();
 
-        MascotaAdapter adapter = new MascotaAdapter(mascotas);
+        MascotaAdapter adapter = new MascotaAdapter(getActivity(), mascotas);
         ((RecyclerView) v.findViewById(R.id.recycler_mascotas)).setAdapter(adapter);
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
@@ -94,5 +96,10 @@ public class HomeFragment extends Fragment {
         ((RecyclerView) v.findViewById(R.id.recycler_mascotas)).setLayoutManager(llm);
 
         return v;
+    }
+
+    public void obtenerContactosBaseDatos(){
+        constructorMascotas = new ConstructorMascotas(getContext());
+        mascotas= constructorMascotas.obtenerDatos();
     }
 }
